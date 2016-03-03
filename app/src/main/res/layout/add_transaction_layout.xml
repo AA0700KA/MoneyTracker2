@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    style="@style/Conteiner">
+
+    <include layout="@layout/toolbar" />
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:rowCount="4"
+        android:columnCount="2"
+        android:background="@color/item_background">
+
+        <TextView
+            android:text="@string/summa"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_size_transactions_info"
+            android:id="@+id/txt_sum"
+            android:layout_gravity="fill"/>
+
+        <EditText
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_gravity="fill"
+            android:inputType="number"
+            android:text="@string/example_sum"
+            android:id="@+id/edit_sum"
+            android:ems="10"/>
+
+        <TextView
+            android:text="@string/transaction"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_size_transactions_info"
+            android:id="@+id/txt_cost"
+            android:layout_gravity="fill"/>
+
+        <EditText
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_gravity="fill"
+            android:id="@+id/edit_cost"
+            android:text="@string/example_transaction"
+            android:ems="10"/>
+
+        <TextView
+            android:text="@string/category"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_size_transactions_info"
+            android:id="@+id/txt_category"
+            android:layout_gravity="fill"/>
+
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/spinner_category"/>
+
+        <TextView
+            android:text="@string/date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_size_transactions_info"
+            android:id="@+id/txt_date"
+            android:layout_gravity="fill"/>
+
+        <GridLayout
+             android:layout_height="wrap_content"
+             android:layout_width="wrap_content"
+             android:columnCount="3"
+             android:rowCount="1">
+
+            <EditText
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_gravity="fill"
+                android:id="@+id/edit_date_day"
+                android:inputType="date"
+                android:ems="3"/>
+
+            <EditText
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_gravity="fill"
+                android:id="@+id/edit_date_month"
+                android:inputType="date"
+                android:ems="3"/>
+
+            <EditText
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_gravity="fill"
+                android:id="@+id/edit_date_year"
+                android:inputType="date"
+                android:ems="5"/>
+
+        </GridLayout>
+
+
+    </GridLayout>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/add_transaction"
+        android:id="@+id/addTransaction"
+        android:layout_gravity="center"/>
+
+</LinearLayout>

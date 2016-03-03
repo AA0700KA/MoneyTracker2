@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    style="@style/Container_Coasts">
+
+    <include layout="@layout/toolbar" />
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:rowCount="4"
+        android:columnCount="2"
+        android:background="@color/item_background">
+
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_gravity="fill"
+            android:text="@string/summa"
+            android:textSize="@dimen/text_size_transactions_info" />
+
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/summa"
+            android:textSize="@dimen/text_size_transactions_info"
+            android:id="@+id/sumInfo" />
+
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_gravity="fill"
+            android:text="@string/transaction"
+            android:textSize="@dimen/text_size_transactions_info" />
+
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/summa"
+            android:textSize="@dimen/text_size_transactions_info"
+            android:id="@+id/transactionInfo" />
+
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_gravity="fill"
+            android:text="@string/category"
+            android:textSize="@dimen/text_size_transactions_info" />
+
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/summa"
+            android:textSize="@dimen/text_size_transactions_info"
+            android:id="@+id/categoryInfo" />
+
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_gravity="fill"
+            android:text="@string/date"
+            android:textSize="@dimen/text_size_transactions_info" />
+
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/summa"
+            android:textSize="@dimen/text_size_transactions_info"
+            android:id="@+id/dateInfo" />
+
+    </GridLayout>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/ok"
+        android:layout_gravity="center"
+        android:id="@+id/ok" />
+
+</LinearLayout>
