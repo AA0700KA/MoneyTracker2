@@ -19,7 +19,9 @@
             android:name="AA_MODELS"
             android:value="com.andrewbondarenko.moneytracker.domain.Transaction, com.andrewbondarenko.moneytracker.domain.Category" />
 
-        <activity android:name=".MainActivity_" >
+        <activity
+            android:name=".MainActivity_"
+            android:configChanges="orientation|screenSize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

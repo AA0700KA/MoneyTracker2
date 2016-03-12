@@ -4,6 +4,5 @@
        android:layout_height="wrap_content"
        android:id="@+id/toolbar"
        android:background="@color/green"
-       android:minHeight="?attr/actionBarSize"
-     />
+       android:minHeight="?attr/actionBarSize" />
 

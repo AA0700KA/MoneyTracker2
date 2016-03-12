@@ -29,4 +29,9 @@
     <string name="delete">Delete</string>
     <string name="fragment_manager">Fragment Manager</string>
     <string name="search">Search</string>
+    <string name="spent_all">Spent All:</string>
+    <string name="summa_today">Today:</string>
+    <string name="summa_month">Month:</string>
+    <string name="summa_year">Year:</string>
+    <string name="all_spent_money">Spent all money:</string>
 </resources>

@@ -3,6 +3,7 @@ package com.andrewbondarenko.moneytracker;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -128,9 +129,11 @@ public class AddTransactionActivity extends AppCompatActivity {
 
     private void putData(String sum, String transaction, String day, String month, String year, Category category) {
 
-        String dateString = day + ":" + month + ":" + year;
+        Date nowDate = new Date();
+        String nowDateStr = new SimpleDateFormat("hh:mm:ss").format(nowDate);
+        String dateString = day + ":" + month + ":" + year + " " + nowDateStr;
         SimpleDateFormat sdf = new SimpleDateFormat("dd:MM:yyyy hh:mm:ss");
-        Date date = new Date();
+        Date date = null;
 
         try {
             date = sdf.parse(dateString);
