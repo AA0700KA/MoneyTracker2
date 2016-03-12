@@ -1,9 +1,12 @@
 package com.andrewbondarenko.moneytracker.fragment;
 
+import android.support.v4.content.AsyncTaskLoader;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,7 +18,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridLayout;
 import android.widget.SearchView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.activeandroid.query.Select;
@@ -41,6 +46,7 @@ public class TransactionFragment extends Fragment {
     private ActionMode actionMode;
     private ActionModeCallBack actionModeCallBack;
     private SwipeRefreshLayout swipeRefreshLayout;
+    private TextView sumText;
 
     private Category searchCategory;
 
@@ -56,6 +62,7 @@ public class TransactionFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View inflate = inflater.inflate(R.layout.list_fragment, null);
         setHasOptionsMenu(true);
+        sumText = (TextView) inflate.findViewById(R.id.sum_text);
         swipeRefreshLayout = (SwipeRefreshLayout) inflate.findViewById(R.id.swipe_refresh_layout);
         recyclerView = (RecyclerView) inflate.findViewById(R.id.recycle_view);
         recyclerView.setHasFixedSize(true);
@@ -129,49 +136,86 @@ public class TransactionFragment extends Fragment {
         super.onCreateOptionsMenu(menu, inflater);
     }
 
-    private void loadData(String filter) {
-        List<Transaction> transactions;
+    private void loadData(final String filter) {
+        getLoaderManager().restartLoader(0, null, new LoaderManager.LoaderCallbacks<List<Transaction>>() {
 
-        if (searchCategory == null) {
-            transactions = Transaction.initData(filter);
-        } else {
-            transactions = Transaction.findTransactionToCategory(searchCategory);
-        }
-        swipeRefreshLayout.setRefreshing(false);
-        adapter = new TransactionAdapter(getActivity(),transactions, new TransactionAdapter.CardViewHolder.ClickListener() {
             @Override
-            public void onItemClick(int position) {
-                if (actionMode != null) {
-                    toggleSelection(position);
-                } else {
-                    Transaction transaction = adapter.getTransactions().get(position);
-                    Category category = transaction.getCategory();
-                    Intent intent = new Intent(getActivity(), InfoTransactionActivity_.class);
-                    SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy hh:mm:ss");
-                    intent.putExtra("Transaction", transaction.getName());
-                    intent.putExtra("Sum", String.valueOf(transaction.getSum()));
+            public Loader<List<Transaction>> onCreateLoader(int id, Bundle args) {
+                final AsyncTaskLoader<List<Transaction>> transactionsLoader = new AsyncTaskLoader<List<Transaction>>(getActivity()) {
+                    @Override
+                    public List<Transaction> loadInBackground() {
+                        List<Transaction> transactions;
 
-                    if (category != null) {
-                        intent.putExtra("Category", category.getName());
+                        if (searchCategory == null) {
+                            transactions = Transaction.initData(filter);
+                        } else {
+                            transactions = Transaction.findTransactionToCategory(searchCategory);
+                        }
+
+                        return transactions;
                     }
-
-                    intent.putExtra("Date", sdf.format(transaction.getDate()));
-                    getActivity().startActivity(intent);
-                    getActivity().overridePendingTransition(R.anim.from_middle, R.anim.to_middle);
-                }
+                };
+                transactionsLoader.forceLoad();
+                return transactionsLoader;
             }
 
             @Override
-            public boolean onItemLongClick(int position) {
-                if (actionMode == null) {
-                    AppCompatActivity activity = (AppCompatActivity) getActivity();
-                    actionMode = activity.startSupportActionMode(actionModeCallBack);
-                }
-                toggleSelection(position);
-                return true;
+            public void onLoadFinished(Loader<List<Transaction>> loader, List<Transaction> data) {
+                swipeRefreshLayout.setRefreshing(false);
+                adapter = new TransactionAdapter(getActivity(),data, new TransactionAdapter.CardViewHolder.ClickListener() {
+
+                     @Override
+                     public void onItemClick(int position) {
+                            if (actionMode != null) {
+                                  toggleSelection(position);
+                            } else {
+                                  Transaction transaction = adapter.getTransactions().get(position);
+                                  Category category = transaction.getCategory();
+                                  Intent intent = new Intent(getActivity(), InfoTransactionActivity_.class);
+                                  SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy hh:mm:ss");
+                                  intent.putExtra("Transaction", transaction.getName());
+                                  intent.putExtra("Sum", String.valueOf(transaction.getSum()));
+
+                                   if (category != null) {
+                                       intent.putExtra("Category", category.getName());
+                                   }
+
+                                   intent.putExtra("Date", sdf.format(transaction.getDate()));
+                                   getActivity().startActivity(intent);
+                                   getActivity().overridePendingTransition(R.anim.from_middle, R.anim.to_middle);
+                             }
+                     }
+
+                     @Override
+                     public boolean onItemLongClick(int position) {
+                            if (actionMode == null) {
+                                AppCompatActivity activity = (AppCompatActivity) getActivity();
+                                actionMode = activity.startSupportActionMode(actionModeCallBack);
+                            }
+                            toggleSelection(position);
+                            return true;
+                     }
+                 });
+                 recyclerView.setAdapter(adapter);
+                 transactionSum(data);
+            }
+
+            @Override
+            public void onLoaderReset(Loader<List<Transaction>> loader) {
+
             }
         });
-        recyclerView.setAdapter(adapter);
+
+    }
+
+    private void transactionSum(List<Transaction> data) {
+        int sum = 0;
+
+        for (Transaction transaction : data) {
+            sum += transaction.getSum();
+        }
+
+        sumText.setText(String.valueOf(sum));
     }
 
     public static TransactionFragment getInstance(Category category) {
@@ -212,7 +256,13 @@ public class TransactionFragment extends Fragment {
         @Override
         public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
             List<Integer> positions = adapter.getSelectedItems();
+            int sum = Integer.parseInt(sumText.getText().toString());
+            List<Transaction> transactions = adapter.getTransactions();
+            for (Integer position : positions) {
+                sum -= transactions.get(position).getSum();
+            }
             adapter.removeTransactions(positions);
+            sumText.setText(String.valueOf(sum));
             mode.finish();
             return true;
         }

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+<GridLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:rowCount="3"
+    android:columnCount="2"
+    android:background="@color/item_background">
+
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_gravity="fill"
+        android:text="@string/summa_today"
+        android:textSize="@dimen/text_size_transactions_info" />
+
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/summa"
+        android:textSize="@dimen/text_size_transactions_info"
+        android:id="@+id/today" />
+
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_gravity="fill"
+        android:text="@string/summa_month"
+        android:textSize="@dimen/text_size_transactions_info" />
+
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/summa"
+        android:textSize="@dimen/text_size_transactions_info"
+        android:id="@+id/month" />
+
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_gravity="fill"
+        android:text="@string/summa_year"
+        android:textSize="@dimen/text_size_transactions_info" />
+
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/summa"
+        android:textSize="@dimen/text_size_transactions_info"
+        android:id="@+id/year" />
+
+
+</GridLayout>
+</LinearLayout>

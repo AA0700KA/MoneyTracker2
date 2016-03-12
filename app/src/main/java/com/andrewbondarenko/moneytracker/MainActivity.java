@@ -6,6 +6,8 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 
+import com.activeandroid.query.Delete;
+import com.activeandroid.query.Select;
 import com.andrewbondarenko.moneytracker.auth.SessionManager;
 import com.andrewbondarenko.moneytracker.domain.Transaction;
 import com.andrewbondarenko.moneytracker.fragment.CategoryFragment;
@@ -34,6 +36,11 @@ import org.androidannotations.annotations.Receiver;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.rest.RestService;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+
 @EActivity(R.layout.main_layout)
 public class MainActivity extends AppCompatActivity {
 
@@ -53,20 +60,8 @@ public class MainActivity extends AppCompatActivity {
 
         drawer = initDrawer();
 
-        if (isNotFragments()) {
-            setTitle(R.string.transactions);
-            getSupportFragmentManager().beginTransaction().add(R.id.content_frame, new TransactionFragment(), TransactionFragment.TAG).commit();
-        }
-    }
-
-    private boolean isNotFragments() {
-        Log.e("Fragments", String.valueOf(getSupportFragmentManager().findFragmentByTag(TransactionFragment.TAG) == null));
-        Log.e("Fragments", String.valueOf(getSupportFragmentManager().findFragmentByTag(CategoryFragment.TAG) == null));
-        Log.e("Fragments", String.valueOf(getSupportFragmentManager().findFragmentByTag(StatisticFragment.TAG) == null));
-        Log.e("Fragments", getSupportFragmentManager().toString());
-        return getSupportFragmentManager().findFragmentByTag(TransactionFragment.TAG) == null &&
-                getSupportFragmentManager().findFragmentByTag(CategoryFragment.TAG) == null &&
-                getSupportFragmentManager().findFragmentByTag(StatisticFragment.TAG) == null;
+        setTitle(R.string.transactions);
+        getSupportFragmentManager().beginTransaction().add(R.id.content_frame, new TransactionFragment(), TransactionFragment.TAG).commit();
     }
 
     private Drawer initDrawer() {

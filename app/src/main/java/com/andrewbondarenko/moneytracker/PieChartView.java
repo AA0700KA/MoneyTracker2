@@ -6,8 +6,11 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class PieChartView extends View {
@@ -15,6 +18,8 @@ public class PieChartView extends View {
     private Paint paint;
     private RectF rectangle;
     private float[] dataPoints;
+    private List<Integer> colors = new ArrayList<>();
+    private int indexDataPoint;
 
     public PieChartView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -29,7 +34,7 @@ public class PieChartView extends View {
         super.onDraw(canvas);
 
         if (dataPoints != null) {
-            Random random = new Random();
+
             int startTop = 0, startLeft = 0,
                     endBottom = getWidth(), endRight = endBottom;
 
@@ -37,20 +42,52 @@ public class PieChartView extends View {
             float[] scale = scale();
 
             float startPoint = 0;
+            int index = 0;
             for (float value : scale) {
-                int color = Color.argb(100, random.nextInt(255),random.nextInt(255),random.nextInt(255));
-                paint.setColor(color);
+
+                paint.setColor(colors.get(index));
 
                 canvas.drawArc(rectangle, startPoint, value, true, paint);
                 startPoint += value;
+                index++;
             }
 
         }
     }
 
+    public List<Integer> getColors() {
+        return colors;
+    }
+
     public void setDataPoints(float[] dataPoints) {
         this.dataPoints = dataPoints;
+
+        for (int i = 0; i < dataPoints.length; i++) {
+            Random random = new Random();
+            int color = Color.argb(100, random.nextInt(255),random.nextInt(255),random.nextInt(255));
+            colors.add(color);
+            Log.i("Color111", String.valueOf(color));
+        }
+
         invalidate();
+    }
+
+    public void setDataPoint(float sum, int length, List<Integer> colors) {
+        if (this.dataPoints == null) {
+            this.dataPoints = new float[length];
+        }
+
+        if (this.colors.isEmpty()) {
+            this.colors = colors;
+        }
+
+        this.dataPoints[indexDataPoint] = sum;
+        indexDataPoint++;
+        invalidate();
+    }
+
+    public void setIndexDataPoint(int index) {
+        this.indexDataPoint = index;
     }
 
     private float[] scale() {

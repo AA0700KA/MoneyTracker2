@@ -77,4 +77,20 @@ public class Transaction extends Model {
                 .orderBy("Date DESC")
                 .execute();
     }
+
+    public static int count(Category category) {
+        return new Select()
+                .from(Transaction.class)
+                .where("Category = ?", category.getId())
+                .count();
+    }
+
+    public static List<Transaction> dataToDate(Date dateStart, Date dateFinish) {
+        return new Select()
+                .from(Transaction.class)
+                .where("Date > ?", dateStart.getTime())
+                .and("Date < ?", dateFinish.getTime())
+                .execute();
+    }
+
 }
